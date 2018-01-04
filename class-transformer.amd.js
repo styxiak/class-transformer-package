@@ -371,7 +371,7 @@ define("class-transformer/TransformOperationExecutor", ["require", "exports", "c
                         }
                         else {
                             // ...FromExists - if newValue is undefined, then no use it
-                            if (finalValue) {
+                            if (finalValue !== undefined) {
                                 if (newValue instanceof Map) {
                                     newValue.set(newValueKey, finalValue);
                                 }
@@ -395,7 +395,7 @@ define("class-transformer/TransformOperationExecutor", ["require", "exports", "c
                         }
                         else {
                             // ...FromExists - if newValue is undefined, then no use it
-                            if (finalValue) {
+                            if (finalValue !== undefined) {
                                 if (newValue instanceof Map) {
                                     newValue.set(newValueKey, finalValue);
                                 }

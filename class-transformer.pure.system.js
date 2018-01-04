@@ -424,7 +424,7 @@ System.register("class-transformer/TransformOperationExecutor", ["class-transfor
                                 }
                                 else {
                                     // ...FromExists - if newValue is undefined, then no use it
-                                    if (finalValue) {
+                                    if (finalValue !== undefined) {
                                         if (newValue instanceof Map) {
                                             newValue.set(newValueKey, finalValue);
                                         }
@@ -448,7 +448,7 @@ System.register("class-transformer/TransformOperationExecutor", ["class-transfor
                                 }
                                 else {
                                     // ...FromExists - if newValue is undefined, then no use it
-                                    if (finalValue) {
+                                    if (finalValue !== undefined) {
                                         if (newValue instanceof Map) {
                                             newValue.set(newValueKey, finalValue);
                                         }
