@@ -174,17 +174,17 @@ define("class-transformer/metadata/MetadataStorage", ["require", "exports", "cla
         // -------------------------------------------------------------------------
         MetadataStorage.prototype.getMetadata = function (metadatas, target) {
             var metadataFromTarget = metadatas.filter(function (meta) { return meta.target === target && meta.propertyName !== undefined; });
-            var metadataFromChildren = metadatas.filter(function (meta) { return target.prototype instanceof meta.target && meta.propertyName !== undefined; });
+            var metadataFromChildren = metadatas.filter(function (meta) { return target && target.prototype instanceof meta.target && meta.propertyName !== undefined; });
             return metadataFromChildren.concat(metadataFromTarget);
         };
         MetadataStorage.prototype.findMetadata = function (metadatas, target, propertyName) {
             var metadataFromTarget = metadatas.find(function (meta) { return meta.target === target && meta.propertyName === propertyName; });
-            var metadataFromChildren = metadatas.find(function (meta) { return target.prototype instanceof meta.target && meta.propertyName === propertyName; });
+            var metadataFromChildren = metadatas.find(function (meta) { return target && target.prototype instanceof meta.target && meta.propertyName === propertyName; });
             return metadataFromTarget || metadataFromChildren;
         };
         MetadataStorage.prototype.findMetadatas = function (metadatas, target, propertyName) {
             var metadataFromTarget = metadatas.filter(function (meta) { return meta.target === target && meta.propertyName === propertyName; });
-            var metadataFromChildren = metadatas.filter(function (meta) { return target.prototype instanceof meta.target && meta.propertyName === propertyName; });
+            var metadataFromChildren = metadatas.filter(function (meta) { return target && target.prototype instanceof meta.target && meta.propertyName === propertyName; });
             return metadataFromChildren.reverse().concat(metadataFromTarget.reverse());
         };
         return MetadataStorage;
@@ -265,7 +265,7 @@ define("class-transformer/TransformOperationExecutor", ["require", "exports", "c
                     return value;
                 return new Date(value);
             }
-            else if (value instanceof Object) {
+            else if (typeof value === "object" && value !== null) {
                 // try to guess the type
                 if (!targetType && value.constructor !== Object /* && TransformationType === TransformationType.CLASS_TO_PLAIN*/)
                     targetType = value.constructor;

@@ -224,14 +224,14 @@ You can deserialize your model to from a json using `deserialize` method:
 
 ```javascript
 import {deserialize} from "class-transformer";
-let photo = deserialize(photo);
+let photo = deserialize(Photo, photo);
 ```
 
 To make deserialization to work with arrays use `deserializeArray` method:
 
 ```javascript
 import {deserializeArray} from "class-transformer";
-let photos = deserializeArray(photos);
+let photos = deserializeArray(Photo, photos);
 ```
 
 ## Working with nested objects
@@ -658,7 +658,7 @@ the exposed variables. email property is also exposed becuase we metioned the gr
 ## Working with generics
 
 Generics are not supported because TypeScript does not have good reflection abilities yet.
-Once TypeScript team provide us better runtime type reelection tools, generics will be implemented.
+Once TypeScript team provide us better runtime type reflection tools, generics will be implemented.
 There are some tweaks however you can use, that maybe can solve your problem.
 [Checkout this example.](https://github.com/pleerock/class-transformer/tree/master/sample/sample4-generics)
 
