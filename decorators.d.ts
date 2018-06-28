@@ -1,6 +1,6 @@
 import { ExposeOptions, ExcludeOptions, TypeOptions, TransformOptions } from "./metadata/ExposeExcludeOptions";
 import { ClassTransformOptions } from "./ClassTransformOptions";
-import { TransformationType } from "./TransformOperationExecutor";
+import { TransformationType } from "./TransformationType";
 /**
  * Defines a custom logic for value transformation.
  */

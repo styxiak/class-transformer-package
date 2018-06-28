@@ -1,12 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var storage_1 = require("./storage");
-var TransformationType;
-(function (TransformationType) {
-    TransformationType[TransformationType["PLAIN_TO_CLASS"] = 0] = "PLAIN_TO_CLASS";
-    TransformationType[TransformationType["CLASS_TO_PLAIN"] = 1] = "CLASS_TO_PLAIN";
-    TransformationType[TransformationType["CLASS_TO_CLASS"] = 2] = "CLASS_TO_CLASS";
-})(TransformationType = exports.TransformationType || (exports.TransformationType = {}));
+var TransformationType_1 = require("./TransformationType");
 var TransformOperationExecutor = /** @class */ (function () {
     // -------------------------------------------------------------------------
     // Constructor
@@ -26,7 +21,7 @@ var TransformOperationExecutor = /** @class */ (function () {
         var _this = this;
         if (level === void 0) { level = 0; }
         if (value instanceof Array || value instanceof Set) {
-            var newValue_1 = arrayType && this.transformationType === TransformationType.PLAIN_TO_CLASS ? new arrayType() : [];
+            var newValue_1 = arrayType && this.transformationType === TransformationType_1.TransformationType.PLAIN_TO_CLASS ? new arrayType() : [];
             value.forEach(function (subValue, index) {
                 var subSource = source ? source[index] : undefined;
                 if (!_this.options.enableCircularCheck || !_this.isCircular(subValue, level)) {
@@ -38,7 +33,7 @@ var TransformOperationExecutor = /** @class */ (function () {
                         newValue_1.push(value_1);
                     }
                 }
-                else if (_this.transformationType === TransformationType.CLASS_TO_CLASS) {
+                else if (_this.transformationType === TransformationType_1.TransformationType.CLASS_TO_CLASS) {
                     if (newValue_1 instanceof Set) {
                         newValue_1.add(subValue);
                     }
@@ -78,7 +73,7 @@ var TransformOperationExecutor = /** @class */ (function () {
             }
             var keys = this.getKeys(targetType, value);
             var newValue = source ? source : {};
-            if (!source && (this.transformationType === TransformationType.PLAIN_TO_CLASS || this.transformationType === TransformationType.CLASS_TO_CLASS)) {
+            if (!source && (this.transformationType === TransformationType_1.TransformationType.PLAIN_TO_CLASS || this.transformationType === TransformationType_1.TransformationType.CLASS_TO_CLASS)) {
                 if (isMap) {
                     newValue = new Map();
                 }
@@ -92,14 +87,14 @@ var TransformOperationExecutor = /** @class */ (function () {
             var _loop_1 = function (key) {
                 var valueKey = key, newValueKey = key, propertyName = key;
                 if (!this_1.options.ignoreDecorators && targetType) {
-                    if (this_1.transformationType === TransformationType.PLAIN_TO_CLASS) {
+                    if (this_1.transformationType === TransformationType_1.TransformationType.PLAIN_TO_CLASS) {
                         var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadataByCustomName(targetType, key);
                         if (exposeMetadata) {
                             propertyName = exposeMetadata.propertyName;
                             newValueKey = exposeMetadata.propertyName;
                         }
                     }
-                    else if (this_1.transformationType === TransformationType.CLASS_TO_PLAIN || this_1.transformationType === TransformationType.CLASS_TO_CLASS) {
+                    else if (this_1.transformationType === TransformationType_1.TransformationType.CLASS_TO_PLAIN || this_1.transformationType === TransformationType_1.TransformationType.CLASS_TO_CLASS) {
                         var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(targetType, key);
                         if (exposeMetadata && exposeMetadata.options && exposeMetadata.options.name)
                             newValueKey = exposeMetadata.options.name;
@@ -145,12 +140,12 @@ var TransformOperationExecutor = /** @class */ (function () {
                 // if newValue is a source object that has method that match newKeyName then skip it
                 if (newValue.constructor.prototype) {
                     var descriptor = Object.getOwnPropertyDescriptor(newValue.constructor.prototype, newValueKey);
-                    if ((this_1.transformationType === TransformationType.PLAIN_TO_CLASS || this_1.transformationType === TransformationType.CLASS_TO_CLASS)
+                    if ((this_1.transformationType === TransformationType_1.TransformationType.PLAIN_TO_CLASS || this_1.transformationType === TransformationType_1.TransformationType.CLASS_TO_CLASS)
                         && (newValue[newValueKey] instanceof Function || (descriptor && !descriptor.set)))
                         return "continue";
                 }
                 if (!this_1.options.enableCircularCheck || !this_1.isCircular(subValue, level)) {
-                    var transformKey = this_1.transformationType === TransformationType.PLAIN_TO_CLASS ? newValueKey : key;
+                    var transformKey = this_1.transformationType === TransformationType_1.TransformationType.PLAIN_TO_CLASS ? newValueKey : key;
                     var finalValue = this_1.transform(subSource, subValue, type, arrayType_1, isSubValueMap, level + 1);
                     finalValue = this_1.applyCustomTransformations(finalValue, targetType, transformKey, value, this_1.transformationType);
                     if (!source) {
@@ -173,7 +168,7 @@ var TransformOperationExecutor = /** @class */ (function () {
                         }
                     }
                 }
-                else if (this_1.transformationType === TransformationType.CLASS_TO_CLASS) {
+                else if (this_1.transformationType === TransformationType_1.TransformationType.CLASS_TO_CLASS) {
                     console.log(666);
                     var finalValue = subValue;
                     finalValue = this_1.applyCustomTransformations(finalValue, targetType, key, value, this_1.transformationType);
@@ -269,7 +264,7 @@ var TransformOperationExecutor = /** @class */ (function () {
         if (!this.options.ignoreDecorators && target) {
             // add all exposed to list of keys
             var exposedProperties = storage_1.defaultMetadataStorage.getExposedProperties(target, this.transformationType);
-            if (this.transformationType === TransformationType.PLAIN_TO_CLASS) {
+            if (this.transformationType === TransformationType_1.TransformationType.PLAIN_TO_CLASS) {
                 exposedProperties = exposedProperties.map(function (key) {
                     var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(target, key);
                     if (exposeMetadata && exposeMetadata.options && exposeMetadata.options.name) {
